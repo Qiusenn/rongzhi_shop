@@ -22,8 +22,15 @@
 				title: 'Hello'
 			}
 		},
-		onLoad() {
-
+		async onLoad() {
+			// 异步获取首页数据
+			// let res = await this.$u.get('/api/index?page=1')
+			// let res = await this.$u.post('/api/auth/wx/bind',{type:'ubind',openid:123456})
+			// let res = await this.$u.patch('/api/orders/1/confirm', )
+			let res = await this.$u.api.getIndex()
+			console.log(res);
+			console.log(this.vuex_version);
+			
 		},
 		methods: {
 
