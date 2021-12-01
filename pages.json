@@ -6,13 +6,34 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uView-index"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
-			"path": "pages/center/index",
+			"path": "pages/center/center",
 			"style": {
-				"navigationBarTitleText": "uView-center"
+				"navigationBarTitleText": "个人"
+			}
+		}, {
+			"path": "pages/goods/goods",
+			"style": {
+				"navigationBarTitleText": "商品",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/car/car",
+			"style": {
+				"navigationBarTitleText": "购物车",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/auth/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
 			}
 		}
 	],
@@ -23,20 +44,34 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-	    "color": "#909399",
-	    "selectedColor": "#303133",
-	    "borderStyle": "black",
-	    "backgroundColor": "#ffffff",
-	    "list": [{
-	        "pagePath": "pages/index/index",
-	        "iconPath": "static/index.png",
-	        "selectedIconPath": "static/index-selected.png",
-	        "text": "首页"
-	    }, {
-	        "pagePath": "pages/center/index",
-	        "iconPath": "static/center.png",
-	        "selectedIconPath": "static/center-selected.png",
-	        "text": "我"
-	    }]
+		"color": "#2c2c2c",
+		"selectedColor": "#d81e06",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/home.png",
+				"selectedIconPath": "static/images/home-select.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/goods/goods",
+				"iconPath": "static/images/goods.png",
+				"selectedIconPath": "static/images/goods-select.png",
+				"text": "商品"
+			},
+			{
+				"pagePath": "pages/car/car",
+				"iconPath": "static/images/car.png",
+				"selectedIconPath": "static/images/car-select.png",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/center/center",
+				"iconPath": "static/images/mine.png",
+				"selectedIconPath": "static/images/mine-select.png",
+				"text": "我"
+			}
+		]
 	}
 }

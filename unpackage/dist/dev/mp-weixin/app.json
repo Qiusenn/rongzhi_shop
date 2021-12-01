@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/center/center",
+    "pages/goods/goods",
+    "pages/car/car"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uView",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#2c2c2c",
+    "selectedColor": "#d81e06",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/home.png",
+        "selectedIconPath": "static/images/home-select.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/goods/goods",
+        "iconPath": "static/images/goods.png",
+        "selectedIconPath": "static/images/goods-select.png",
+        "text": "商品"
+      },
+      {
+        "pagePath": "pages/car/car",
+        "iconPath": "static/images/car.png",
+        "selectedIconPath": "static/images/car-select.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/center/center",
+        "iconPath": "static/images/mine.png",
+        "selectedIconPath": "static/images/mine-select.png",
+        "text": "我"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
