@@ -2,14 +2,12 @@
 	<view class="wrap">
 		<view class="top"></view>
 		<view class="content">
-			<view class="title">登录</view>
-			<input class="u-border-bottom" type="email" v-model="email" placeholder="请输入邮箱" />
+			<view class="title">注册</view>
+			<input class="u-border-bottom u-m-t-30 u-m-b-30" type="text" v-model="name" placeholder="请输入名字" />
+			<input class="u-border-bottom u-m-t-30 u-m-b-30" type="email" v-model="email" placeholder="请输入邮箱" />
 			<input class="u-border-bottom u-m-t-30 u-m-b-30" type="password" v-model="password" placeholder="请输入密码" />
-			<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
-			<view class="alternative">
-				<view class="password" @click="gotoRegister">注册账号</view>
-				<view class="issue">遇到问题</view>
-			</view>
+			<input class="u-border-bottom u-m-t-30 u-m-b-30" type="password" v-model="password_confirmation" placeholder="请再次输入密码" />
+			<button @tap="submit" :style="[inputStyle]" class="getCaptcha">注册</button>
 		</view>
 	</view>
 </template>
@@ -18,53 +16,43 @@
 	export default {
 		data() {
 			return {
-				email: '',
-				password: ''
+				name: "",
+				email: "",
+				password: "",
+				password_confirmation: ""
 			}
 		},
 		computed: {
 			// 提交按钮样式设置
 			inputStyle() {
 				let style = {};
-				if (this.$u.test.email(this.email) && this.password.length >= 4) {
+				if (this.$u.test.email(this.email) && this.password.length >= 4 && this.password === this.password_confirmation && this.name.length) {
 					style.color = "#fff";
 					style.backgroundColor = this.$u.color['warning'];
 				}
 				return style;
 			}
 		},
+		
 		methods: {
-			// 提交
-			async submit() {
-				if (!this.$u.test.email(this.email) || !this.password.length >= 4) return;
+			// 注册
+			async submit () {
+				if (!this.$u.test.email(this.email) || this.password.length < 4 || this.password !== this.password_confirmation || !this.name.length) return
 				const params = {
+					name: this.name,
 					email: this.email,
-					password: this.password
+					password: this.password,
+					password_confirmation:this.password_confirmation
 				}
-				// 请求登录.获取用户token
-				let res = await this.$u.api.reqUserLogin(params)
-				// 向vuex缓存token
-				this.$u.vuex("vuex_token", res.data.access_token)
-				let loginUserInfo = await this.$u.api.reqUserInfo()
-				this.$u.toast('登录成功');
-				// console.log(loginUserInfo.data);
-				this.$u.vuex("vuex_user", loginUserInfo.data)
-				const page = uni.getStorageSync('currentPage') || 'pages/index/index'
-				setTimeout(() => {
-					this.$u.route({
-						type: 'reLaunch',
-						url: page
-					})
-				}, 1500)
-
-			},
-			
-			// 去往注册页面
-			gotoRegister () {
-				this.$u.route({
-					type: 'navigateTo',
-					url: 'pages/auth/register'
-				})
+				// 请求注册
+				let registerRes = await this.$u.api.reqUserRegister(params)
+				if(registerRes.statusCode === 201) {
+					this.$u.toast("注册成功")
+					// 返回之前页面
+					setTimeout(() => {
+						uni.navigateBack()
+					},1500)
+				}
 			}
 		}
 	};

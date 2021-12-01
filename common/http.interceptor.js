@@ -73,7 +73,10 @@ const install = (Vue, vm) => {
 			}, 1500)
 			return false;
 		} else if (statusCode === 422) {
-			vm.$u.toast(data.errors.type[0]);
+			if(data.message === "The given data was invalid.") {
+				vm.$u.toast(data.errors.email[0	]);
+			}
+			// vm.$u.toast(data.errors.type[0]);
 			setTimeout(() => {
 				// 此为uView的方法，详见路由相关文档
 				// vm.$u.route('/pages/user/login')

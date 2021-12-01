@@ -7,9 +7,13 @@ const install = (Vue, vm) => {
 	vm.$u.api.getIndex = (params = {}) => vm.$u.get('api/index', params);
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	// 登录
-	vm.$u.api.reqUserLogin = (params) => vm.$u.post('https://api.shop.eduwork.cn/api/auth/login', params)
+	vm.$u.api.reqUserLogin = (params) => vm.$u.post('api/auth/login', params)
 	// 请求用户数据
-	vm.$u.api.reqUserInfo = () => vm.$u.get('https://api.shop.eduwork.cn/api/user')
+	vm.$u.api.reqUserInfo = () => vm.$u.get('api/user')
+	// 注册
+	vm.$u.api.reqUserRegister = (params) => vm.$u.post('api/auth/register',params)
+	
+	
 }
 
 export default {
