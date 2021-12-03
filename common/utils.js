@@ -32,8 +32,10 @@ const install = (Vue, vm) => {
 		return true;
 	}
 	
+	
 	vm.$u.utils = {
-		isLogin
+		isLogin,
+
 	}
 }
 

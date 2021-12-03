@@ -10,9 +10,18 @@ const install = (Vue, vm) => {
 	vm.$u.api.reqUserLogin = (params) => vm.$u.post('api/auth/login', params)
 	// 请求用户数据
 	vm.$u.api.reqUserInfo = () => vm.$u.get('api/user')
+	// 获取商品id
+	vm.$u.api.goodsInfo = (id) => vm.$u.get(`/api/goods/${id}`)
+	// 退出登录
+	vm.$u.api.logout = () => vm.$u.post('/api/auth/logout')
+	// 修改用户信息
+	vm.$u.api.reqUserInfoUpdata = (params) => vm.$u.put('api/user',params)
+	// 请求修改api
+	vm.$u.api.reqOssToken = () => vm.$u.get('/api/auth/oss/token')
 	// 注册
 	vm.$u.api.reqUserRegister = (params) => vm.$u.post('api/auth/register',params)
-	
+	// 收藏
+	vm.$u.api.collect = (id) => vm.$u.post(`/api/collects/goods/${id}`)
 	
 }
 

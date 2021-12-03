@@ -2,8 +2,9 @@
 	<view>
 		
 		<view class="u-flex user-box u-p-l-30 u-p-r-20 u-p-b-30 u-p-t-30">
-			<view class="u-m-r-10">
-				<u-avatar :src="vuex_user.avatar_url" size="140"></u-avatar>
+			<view class="u-m-r-10 avatar-body">
+				
+				<oss-upload></oss-upload>
 			</view>
 			<view class="u-flex-1">
 				<view class="u-font-18 u-p-b-20">{{vuex_user.name}}</view>
@@ -13,7 +14,7 @@
 		
 		<view class="u-m-t-20">
 			<u-cell-group>
-				<u-cell-item icon="setting" title="个人信息"></u-cell-item>
+				<u-cell-item icon="setting" title="个人信息" @click="toBaseInfo"></u-cell-item>
 				
 			</u-cell-group>
 		</view>
@@ -28,7 +29,7 @@
 		
 		<view class="u-m-t-20">
 			<u-cell-group>
-				<u-cell-item icon="reload" title="退出登录"></u-cell-item>
+				<u-cell-item icon="reload" title="退出登录" @click="logout"></u-cell-item>
 			</u-cell-group>
 		</view>
 	</view>
@@ -46,7 +47,25 @@
 			if(!this.$u.utils.isLogin()) return
 		},
 		methods: {
+			toBaseInfo () {
+				this.$u.route({
+					url: 'pages/center/baseInfo'
+				})
+			},
 			
+			async logout () {
+				await this.$u.api.logout()
+				this.$u.vuex('vuex_token', null)
+				this.$u.vuex('vuex_user', {})
+				
+				this.$u.toast('退出成功')
+				setTimeout(() => {
+					this.$u.route({
+						type: 'reLaunch',
+						url: 'pages/index/index'
+					})
+				},1500)
+			}
 		}
 	}
 </script>
@@ -66,5 +85,11 @@ page{
 }
 .user-box{
 	background-color: #fff;
+}
+
+	
+.avatar-body {
+	width: 70px;
+	height: 70px;
 }
 </style>

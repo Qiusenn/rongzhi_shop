@@ -1,6 +1,6 @@
 <template>
 	<!-- 商品组件 -->
-	<navigator class="goods-item">
+	<navigator class="goods-item" :url="'/pages/goods/show?id='+item.id">
 		<u-image class="u-skeleton-fillet" width="100%" height="300rpx" :src="item.cover_url" :fade="true" duration="450"></u-image>
 		<view class="title u-text-center u-m-t-10 u-m-b-20 u-line-1 u-skeleton-rect ">
 			{{item.title || '商品列表'}}
