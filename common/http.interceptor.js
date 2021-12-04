@@ -74,7 +74,9 @@ const install = (Vue, vm) => {
 			return false;
 		} else if (statusCode === 422) {
 			if(data.message === "The given data was invalid.") {
-				vm.$u.toast(data.errors.email[0	]);
+				// vm.$u.toast(data.errors.email[0]);
+				vm.$u.toast(data.errors.num[0]);
+				// console.log(data);
 			}
 			// vm.$u.toast(data.errors.type[0]);
 			setTimeout(() => {
@@ -88,13 +90,23 @@ const install = (Vue, vm) => {
 			return false;
 		}
 	},
-	vm.$u.patch = (url, params = {}, hander = {}) => {
-		const _params = {
-			...params,
-			_methods: 'PATCH'
+	// vm.$u.patch = (url, params = {}, hander = {}) => {
+	// 	const _params = {
+	// 		...params,
+	// 		_methods: 'PATCH'
+	// 	}
+	// 	return vm.$u.post(url, _params, hander)
+	// }
+	
+	// 增加patch请求
+		vm.$u.patch = (url, params = {}, header = {}) => {
+			// 模拟patch请求
+			const _params = {
+				...params,
+				_method: 'PATCH'
+			}
+			return vm.$u.post(url, _params, header)
 		}
-		return vm.$u.post(url, _params, hander)
-	}
 }
 
 export default {

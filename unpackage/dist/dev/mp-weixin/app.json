@@ -3,7 +3,11 @@
     "pages/index/index",
     "pages/center/center",
     "pages/goods/goods",
-    "pages/car/car"
+    "pages/car/car",
+    "pages/auth/login",
+    "pages/auth/register",
+    "pages/center/baseInfo",
+    "pages/goods/show"
   ],
   "subPackages": [],
   "window": {
@@ -43,6 +47,11 @@
         "text": "我"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": ""
+    }
   },
   "usingComponents": {}
 }

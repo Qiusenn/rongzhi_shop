@@ -1,0 +1,101 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+.carList {
+  display: flex;
+}
+.carList .selectShop {
+  width: 120rpx;
+  height: 240rpx;
+  text-align: center;
+  line-height: 240rpx;
+}
+.carList .shopInfo {
+  display: flex;
+  flex: 1;
+  padding: 20rpx;
+  margin-right: 20rpx;
+  background-color: #f4f4f4;
+}
+.carList .shopInfo .shop-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.carList .shopInfo .shop-content .top-message .title {
+  font-weight: 800;
+  font-size: 32rpx;
+}
+.carList .shopInfo .shop-content .top-message .title-desc {
+  color: #909399;
+  font-size: 28rpx;
+  margin-top: 10px;
+  margin-left: 15rpx;
+  width: 330rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.carList .shopInfo .shop-content .bottom-message {
+  display: flex;
+  justify-content: space-around;
+}
+.navigation {
+  position: fixed;
+  bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 30rpx;
+  width: 100%;
+  margin-top: 100rpx;
+  border: solid 2rpx #f2f2f2;
+  background-color: #ffffff;
+}
+.navigation .total {
+  margin-left: 25rpx;
+  font-weight: 800;
+}
+.navigation .total .count-style {
+  color: #ec0d20;
+}
+.navigation .total .count-style .count {
+  font-size: 40rpx;
+}
+.navigation .left {
+  display: flex;
+  font-size: 20rpx;
+}
+.navigation .left .item {
+  margin: 0 30rpx;
+}
+.navigation .left .item.car {
+  text-align: center;
+  position: relative;
+}
+.navigation .left .item.car .car-num {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+}
+.navigation .right {
+  display: flex;
+  font-size: 28rpx;
+  align-items: center;
+}
+.navigation .right .btn {
+  line-height: 66rpx;
+  padding: 0 30rpx;
+  border-radius: 36rpx;
+  color: #ffffff;
+}
+.navigation .right .cart {
+  background-color: #ed3f14;
+  margin-right: 30rpx;
+}
+.navigation .right .buy {
+  background-color: #ff7900;
+}
+

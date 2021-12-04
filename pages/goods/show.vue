@@ -1,7 +1,6 @@
 <template>
 	<view class="show">
-		<u-image width="50%" height="400rpx" style="margin: 0 auto 0;"
-			:src="goodsInfo.cover_url"></u-image>
+		<u-image width="50%" height="400rpx" style="margin: 0 auto 0;" :src="goodsInfo.cover_url"></u-image>
 		<view style="font-weight: 800;font-size: 40rpx; margin-top: 40rpx;">{{goodsInfo.title}}</view>
 		<view class="content">
 			<view class="price">￥ {{goodsInfo.price}}</view>
@@ -10,12 +9,12 @@
 
 		<u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
 		<u-row gutter="16 " v-if="current === 2">
-			<u-col span="6" v-for="goods in goodsList.length > 0 ? goodsList : [{},{},{},{}]" class="u-m-t-20" >
+			<u-col span="6" v-for="goods in goodsList" class="u-m-t-20">
 				<!-- <view class="demo-layout bg-purple"> -->
-					<!-- 商品组件 -->
-					<goods-item :item="goods"/>
+				<!-- 商品组件 -->
+				<goods-item :item="goods" />
 				<!-- </view> -->
-				
+
 			</u-col>
 		</u-row>
 		<!-- 评论 -->
@@ -48,13 +47,13 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 副文本 -->
 		<view class="u-content u-p-d-80" v-if="current === 0">
-				<u-parse :html="goodsInfo.details"></u-parse>
-				
+			<u-parse :html="goodsInfo.details"></u-parse>
+
 		</view>
-		
+
 		<!-- 购物车 -->
 		<view class="navigation" style="position: fixed; bottom: 0; width: 100%; display: flex; height: 70px;">
 			<view class="left">
@@ -68,22 +67,22 @@
 						<view class="text u-line-1" style="color: black;">未收藏</view>
 					</block>
 				</view>
-				
-				<view class="item" style="position: relative;margin-left: 45rpx;">
-					<u-badge type="error" count="7" :offset="[-8,12]"></u-badge>
+
+				<view class="item" style="position: relative;margin-left: 45rpx;" @click="gotoCar">
+					<u-badge type="error" :count="cartsList" :offset="[-8,12]"></u-badge>
 					<u-icon name="shopping-cart" color="#ff5500" size="40"></u-icon>
-					<view class="text u-line-1" style="color: #ff5500;">购物车</view>
+					<view class="text u-line-1" style="color: #ff5500;" >购物车</view>
 				</view>
-				
+
 			</view>
 			<view class="right">
-				<view class="car">加入购物车</view>
+				<view class="car" @click="addCarts">加入购物车</view>
 				<view class="buy">立即购买</view>
 			</view>
 		</view>
 	</view>
-	
-	
+
+
 
 </template>
 
@@ -106,34 +105,37 @@
 				// 商品详情
 				goodsInfo: [],
 				// 商品列表
-				goodsList: [],
+				goodsList: [{},{},{},{}],
 				content: `
 									<p>露从今夜白，月是故乡明</p>
 								`,
 				isCllect: 0,
-				goodsId: null
+				goodsId: null,
+				cartsList: 0
 			}
 		},
 		async onLoad(options) {
 			const res = await this.$u.api.goodsInfo(options.id);
 			this.goodsId = options.id
-			console.log(res);
 			this.commentList = res.data.goods.comments
 			this.isCllect = res.data.goods.is_collect
-			console.log(this.isCllect);
 			this.list[1].count = this.commentList.length
 			this.goodsInfo = res.data.goods
 			this.goodsList = res.data.like_goods
 			// this.getComment();
+			
+			// 获取购物车列表
+			const resList = await this.$u.api.reqCartsList()
+			this.cartsList = resList.data.data.length;
 		},
 		methods: {
 			change(index) {
 				this.current = index;
 				console.log(this.current);
 			},
-			
+
 			// 收藏
-			collect () {
+			collect() {
 				this.$u.api.collect(this.goodsId)
 				if (!this.isCllect) {
 					this.$u.toast('收藏成功')
@@ -142,16 +144,8 @@
 					this.$u.toast('取消收藏')
 					this.isCllect = 0
 				}
-				
-			},
 
-			// 跳转到全部回复
-			// toAllReply() {
-			// 	uni.navigateTo({
-			// 		url: '/pages/template/comment/reply'
-			// 	});
-			// },
-			// 点赞
+			},
 			getLike(index) {
 				this.commentList[index].isLike = !this.commentList[index].isLike;
 				if (this.commentList[index].isLike == true) {
@@ -160,72 +154,28 @@
 					this.commentList[index].likeNum--;
 				}
 			},
-			// 评论列表
-			getComment() {
-				this.commentList = [{
-						id: 1,
-						name: '叶轻眉',
-						date: '12-25 18:58',
-						contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-						url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-						allReply: 12,
-						likeNum: 33,
-						isLike: false,
-						replyList: [{
-								name: 'uview',
-								contentStr: 'uview是基于uniapp的一个UI框架，代码优美简洁，宇宙超级无敌彩虹旋转好用，用它！'
-							},
-							{
-								name: '粘粘',
-								contentStr: '今天吃什么，明天吃什么，晚上吃什么，我只是一只小猫咪为什么要烦恼这么多'
-							}
-						]
-					},
-					{
-						id: 2,
-						name: '叶轻眉1',
-						date: '01-25 13:58',
-						contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-						allReply: 0,
-						likeNum: 11,
-						isLike: false,
-						url: 'https://cdn.uviewui.com/uview/template/niannian.jpg',
-					},
-					{
-						id: 3,
-						name: '叶轻眉2',
-						date: '03-25 13:58',
-						contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-						allReply: 0,
-						likeNum: 21,
-						isLike: false,
-						allReply: 2,
-						url: '../../../static/logo.png',
-						replyList: [{
-								name: 'uview',
-								contentStr: 'uview是基于uniapp的一个UI框架，代码优美简洁，宇宙超级无敌彩虹旋转好用，用它！'
-							},
-							{
-								name: '豆包',
-								contentStr: '想吃冰糖葫芦粘豆包，但没钱5555.........'
-							}
-						]
-					},
-					{
-						id: 4,
-						name: '叶轻眉3',
-						date: '06-20 13:58',
-						contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-						url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-						allReply: 0,
-						likeNum: 150,
-						isLike: false
+			// 添加购物车
+
+			async addCarts() {
+				if (this.$u.utils.isLogin()) {
+					const params = {
+						goods_id: this.goodsId
 					}
-				];
+					const res = await this.$u.api.addCarts(params)
+					this.$u.toast('添加购物车成功')
+					const resList = await this.$u.api.reqCartsList()
+					this.cartsList = resList.data.data.length;
+				}
+			},
+			
+			// 跳转到购物车
+			gotoCar () {
+				this.$u.route({
+					type: 'switchTab',
+					url: 'pages/car/car'
+				})
 			}
-		},
-
-
+		}
 	}
 </script>
 
@@ -341,24 +291,27 @@
 				}
 			}
 		}
-		
+
 		.u-content {
-				margin-top: 100rpx;
-			}
+			margin-top: 100rpx;
+		}
 	}
-  
+
 	.navigation {
 		background-color: white;
 		// justify-content: center;
 		justify-content: space-between;
 		padding: 0 30rpx;
 		align-items: center;
+
 		.left {
 			text-align: center;
 			display: flex;
 		}
+
 		.right {
 			display: flex;
+
 			.car {
 				color: white;
 				font-size: 30rpx;
@@ -371,6 +324,7 @@
 				background-color: rgb(228, 59, 20);
 				border-radius: 40rpx;
 			}
+
 			.buy {
 				color: white;
 				font-size: 30rpx;

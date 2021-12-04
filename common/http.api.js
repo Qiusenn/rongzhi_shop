@@ -22,7 +22,29 @@ const install = (Vue, vm) => {
 	vm.$u.api.reqUserRegister = (params) => vm.$u.post('api/auth/register',params)
 	// 收藏
 	vm.$u.api.collect = (id) => vm.$u.post(`/api/collects/goods/${id}`)
+	// 添加购物车	
+	vm.$u.api.addCarts = (params) => vm.$u.post(`/api/carts`,params)
 	
+	// 获取购物车列表 
+	vm.$u.api.reqCartsList = () => vm.$u.get('/api/carts')
+	
+	// 获取商品数据  
+	vm.$u.api.reqGoodsList = (params = {}) => vm.$u.get('/api/goods', params)
+	
+	// 获取购物车商品数据  /api/carts
+	vm.$u.api.reqCartsData = () => vm.$u.get('/api/carts?include=goods')
+	
+	// 购物车数量变化 https://api.shop.eduwork.cn/api/carts/8411?num=9
+	vm.$u.api.reqCartsNum = (id,params) => vm.$u.put(`/api/carts/${id}`, params)
+	
+	// 移除购物车  https://api.shop.eduwork.cn/api/carts/8409
+	vm.$u.api.reqdeldteGoods = (id) => vm.$u.delete(`/api/carts/${id}`)
+	
+	// 重新勾选购物车  				https://api.shop.eduwork.cn/api/carts/checked?cart_ids=[8427]
+	vm.$u.api.resetSelectShop = (params) => vm.$u.patch(`/api/carts/checked`,params)
+	
+	// 订单预览 https://api.shop.eduwork.cn/api/orders/preview
+	vm.$u.api.reqgoodsPreview = () => vm.$u.get('/api/orders/preview')
 }
 
 export default {

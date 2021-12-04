@@ -9,7 +9,7 @@
 		<!-- 商品 -->
 		<view class="wrap u-skeleton">
 			<u-row gutter="16 " >
-				<u-col span="6" v-for="goods in goodsList.length > 0 ? goodsList : [{},{},{},{}]" class="u-m-t-20" >
+				<u-col span="6" v-for="goods in goodsList" class="u-m-t-20" >
 					<!-- <view class="demo-layout bg-purple"> -->
 						<!-- 商品组件 -->
 						<goods-item :item="goods"/>
@@ -29,7 +29,7 @@
 				// 轮播图
 				slides: [],
 				// 商品
-				goodsList: [],
+				goodsList: [{},{},{},{}],
 
 				list: [
 					{name: '默认'}, 
@@ -55,7 +55,8 @@
 		methods: {
 			changeNav(index) {
 				// 当前导航条下标
-				this.goodsList = [];
+				goodsList: [{},{},{},{}],
+				
 				this.page = 1
 				this.current = index;
 				this.getIndexData()
@@ -75,7 +76,7 @@
 				// 获取轮播图
 				this.slides = res.data.slides;
 				// 获取首页商品数据
-				this.goodsList = [...this.goodsList, ...res.data.goods.data];
+				this.goodsList = this.goodsList.pop().title ? [...this.goodsList, ...res.data.goods.data] : res.data.goods.data
 			}
 		},
 		
