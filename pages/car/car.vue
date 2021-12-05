@@ -12,11 +12,11 @@
 						</u-checkbox-group>
 			</view>
 			<view class="shopInfo">
-				<u-image width="35%" class="image" height="240rpx" :src="good.goods.cover_url"></u-image>
+				<u-image width="20%" class="image" height="150rpx" :src="good.goods.cover_url"></u-image>
 				<view class="shop-content">
 					<view class="top-message">
 						<view class="title">{{good.goods.title}}</view>
-						<view class="title-desc u-line-3">{{good.goods.description}}</view>
+						<view class="title-desc u-line-1">{{good.goods.description}}</view>
 					</view>
 					<view class="bottom-message">
 						<view class="price">￥{{good.goods.price}}</view>
@@ -28,10 +28,10 @@
 			</view>
 		</view>
 		
-		<view class="navigation">
+		<view class="navigation" v-if="cartsData.length">
 				<view class="left">
 					<u-checkbox-group>
-						<u-checkbox v-model="checked" shape="circle" size="40">  全选</u-checkbox>
+						<u-checkbox v-model="checked" shape="circle" size="40" @change="checkedAll">  全选</u-checkbox>
 					</u-checkbox-group>
 				</view>
 				<view class="total">
@@ -40,7 +40,9 @@
 				<view class="right">
 					<view class="cart btn u-line-1" @click="gotoPreview">去结算</view>
 				</view>
-			</view>
+		</view>
+		
+		<view class="none" v-else style="font-size: 50rpx; color: red; width: 100%;text-align: center;margin-top: 100rpx;">占无商品</view>
 	</view>
 </template>
 
@@ -54,22 +56,14 @@
 				// 当前选中数量
 			};
 		},
-
-		watch: {
-			checked (n) {
-				// 全选 和 全不选
-				this.cartsData.forEach(item => {
-					item.is_checked = n ? 1 : 0
-				})
-			}
-		},
 		computed: {
 			// 计算商品总价
 			count () {
 				let shopCount = 0
 				this.cartsData.forEach((item) => {
+					console.log(item);
 					if (item.is_checked) {
-						shopCount += item.goods.price
+						shopCount += item.goods.price * item.num
 					}
 				})
 				return shopCount
@@ -80,6 +74,8 @@
 			const cartsDataInfo = await this.$u.api.reqCartsData()
 			// 购物车数据
 			this.cartsData = cartsDataInfo.data.data
+			let flag = this.cartsData.every( item => item.is_checked === 1)
+			this.checked = flag
 		},
 		methods: {
 			// 请求更改购物车数量 
@@ -91,14 +87,12 @@
 					num: e.value
 				}
 				let res = await this.$u.api.reqCartsNum(val.id,params)
-				console.log(res);
 			},
 			
 			// 复选框点击
 			async checkboxChange (e) {
 				e.is_checked = !e.is_checked
 				e.is_checked = e.is_checked ? 1 : 0
-				console.log(this.cartsData);
 				let flag = this.cartsData.every( item => item.is_checked === 1)
 				this.checked = flag
 				
@@ -113,6 +107,13 @@
 					cart_ids: selectShop
 				}
 				let res = await this.$u.api.resetSelectShop(params)
+			},
+			
+			// 全选
+			checkedAll () {
+				this.checked = !this.checked ? 1 : 0
+				// this.checked = this.checked 
+				this.cartsData.forEach( item => item.is_checked = this.checked)
 			},
 			
 			// 移除商品
@@ -130,7 +131,10 @@
 			gotoPreview () {
 				this.$u.route({
 					type: 'navigateTo',
-					url: '/pages/car/preview'
+					url: '/pages/car/preview',
+					params: {
+						total: this.count
+					}
 				})
 			}
 			
@@ -145,9 +149,9 @@
 		.selectShop {
 			
 			width: 120rpx;
-			height: 240rpx;
+			height: 150rpx;
 			text-align: center;
-			line-height: 240rpx;
+			line-height: 150rpx;
 		}
 
 		.shopInfo {

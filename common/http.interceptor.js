@@ -53,6 +53,7 @@ const install = (Vue, vm) => {
 			data,
 			statusCode
 		} = res
+		console.log(res);
 		if (statusCode < 400) {
 			// res为服务端返回值，可能有code，result等字段
 			// 这里对res.result进行返回，将会在this.$u.post(url).then(res => {})的then回调中的res的到
@@ -72,6 +73,9 @@ const install = (Vue, vm) => {
 				vm.$u.route('/pages/user/login')
 			}, 1500)
 			return false;
+		}else if (statusCode === 400) {
+			vm.$u.toast(data.message);
+			return false
 		} else if (statusCode === 422) {
 			if(data.message === "The given data was invalid.") {
 				// vm.$u.toast(data.errors.email[0]);

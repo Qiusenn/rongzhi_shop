@@ -5,23 +5,32 @@ const install = (Vue, vm) => {
 	
 	// 首页
 	vm.$u.api.getIndex = (params = {}) => vm.$u.get('api/index', params);
+	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	// 登录
 	vm.$u.api.reqUserLogin = (params) => vm.$u.post('api/auth/login', params)
+	
 	// 请求用户数据
 	vm.$u.api.reqUserInfo = () => vm.$u.get('api/user')
+	
 	// 获取商品id
 	vm.$u.api.goodsInfo = (id) => vm.$u.get(`/api/goods/${id}`)
+	
 	// 退出登录
 	vm.$u.api.logout = () => vm.$u.post('/api/auth/logout')
+	
 	// 修改用户信息
 	vm.$u.api.reqUserInfoUpdata = (params) => vm.$u.put('api/user',params)
+	
 	// 请求修改api
 	vm.$u.api.reqOssToken = () => vm.$u.get('/api/auth/oss/token')
+	
 	// 注册
 	vm.$u.api.reqUserRegister = (params) => vm.$u.post('api/auth/register',params)
+	
 	// 收藏
 	vm.$u.api.collect = (id) => vm.$u.post(`/api/collects/goods/${id}`)
+	
 	// 添加购物车	
 	vm.$u.api.addCarts = (params) => vm.$u.post(`/api/carts`,params)
 	
@@ -45,6 +54,34 @@ const install = (Vue, vm) => {
 	
 	// 订单预览 https://api.shop.eduwork.cn/api/orders/preview
 	vm.$u.api.reqgoodsPreview = () => vm.$u.get('/api/orders/preview')
+	
+	// 添加地址 https://api.shop.eduwork.cn/api/address
+	vm.$u.api.addAddress = (params) => vm.$u.post(`/api/address`,params)
+	
+	// 获取地址列表 https://api.shop.eduwork.cn/api/address
+	vm.$u.api.reqaddressList = () => vm.$u.get('/api/address')
+	
+	// 删除地址 https://api.shop.eduwork.cn/api/address/1416
+	vm.$u.api.deleteAddress = (addressId) => vm.$u.delete(`/api/address/${addressId}`)
+	
+	// 设置默认地址  /api/address/{address}/default
+	vm.$u.api.setDefaultAddress = (id) => vm.$u.patch(`/api/address/${id}/default`)
+	
+	// 提交订单  https://api.shop.eduwork.cn/api/orders?address_id=1422
+	vm.$u.api.commitOrder = (addressId) => vm.$u.post(`/api/orders`,addressId)
+	
+	// 获取支付二维码  https://api.shop.eduwork.cn/api/orders/4277/pay?type=aliyun
+	vm.$u.api.reqErweima = (orderId) => vm.$u.get(`/api/orders/${orderId}/pay?type=aliyun`)
+	  
+	// 轮询请求 支付状态  /api/orders/{order}/status
+	vm.$u.api.reqPayStatus = (orderId) => vm.$u.get(`/api/orders/${orderId}/status`)
+	
+	// 获取订单详情  https://api.shop.eduwork.cn/api/orders/4300?include=orderDetails.goods,address
+	vm.$u.api.reqOrderDetail = (orderId) => vm.$u.get(`/api/orders/${orderId}?include=orderDetails.goods,address`)
+
+	// 所有订单列表  https://api.shop.eduwork.cn/api/orders?include=orderDetails.goods&page=1
+	vm.$u.api.reqOrderList = (page = 1) => vm.$u.get(`/api/orders?include=orderDetails.goods&page=${page}`)
+	
 }
 
 export default {
